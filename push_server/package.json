@@ -1,0 +1,21 @@
+{
+  "name": "push_server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "buildbabel": "babel index.js",
+    "start": "set GCM_KEY=AAAAy1YSL2I:APA91bEJakZMj5itEy2Z22lVgk4nyqrZEGnFKsKagqBAHUmofVrLMOfamh1vHhl_t050Ln0w_vcaL5wtkVteEjtHA8QGrEZJmrwNn0La7JR0QKMUKPqfXIJsAd6OaC62C8Evv9QOaZ9U & babel-node index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.16.1",
+    "express": "^4.14.1",
+    "web-push": "^3.2.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.22.2",
+    "babel-preset-es2015": "^6.22.0"
+  }
+}
