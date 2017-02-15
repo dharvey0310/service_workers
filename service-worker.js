@@ -2,7 +2,9 @@
 // then display the notification
 self.addEventListener('push', (event) => {
     event.waitUntil(self.registration.showNotification('Push Messaging Test', {
-        body: 'This is a test Push Message!'
+        body: 'This is a test Push Message!',
+        icon: "/icon.png",
+        vibrate: [200,100,200,100200,100,400]
     }))
 })
 
