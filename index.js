@@ -24,8 +24,9 @@ function sendNotification(endpoint) {
     .then(() => {
         console.log('Push notification sent to ' + endpoint)
     })
-    .catch(() => {
+    .catch((error) => {
         console.error('Unable to send push message to ' + endpoint + '. Removing subscription.')
+        console.error('ERROR', error)
         subscriptions.splice(subscriptions.indexOf(endpoint), 1)
     })
 }
