@@ -42,7 +42,7 @@ function isSubscribed(endpoint) {
 }
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:8000')
+    res.setHeader('Access-Control-Allow-Origin', 'https://push-client-test.herokuapp.com')
     res.setHeader('Access-Control-Allow-Headers', 'content-type')
     return next()
 })
@@ -71,6 +71,6 @@ app.post('/unregister', (req, res) => {
     res.type('js').send({success: true})
 })
 
-app.listen(4040, () => {
-    console.log('Push Server running on port 4040')
+app.listen(process.env.PORT || 4040, () => {
+    console.log('Push Server running on port', process.env.PORT || 4040)
 })
