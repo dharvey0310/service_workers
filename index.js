@@ -20,7 +20,7 @@ if (!process.env.GCM_KEY) {
 
 // function to send notifications to each registered subscription and remove the endpoint from that array if there is an error
 function sendNotification(endpoint) {
-    webPush.sendNotification(endpoint)
+    webPush.sendNotification({endpoint})
     .then(() => {
         console.log('Push notification sent to ' + endpoint)
     })
