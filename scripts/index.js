@@ -37,7 +37,7 @@ function subscribe() {
     })
     .then(subscription => {
         console.log('Subscribed ', subscription.endpoint)
-        return fetch('http://localhost:4040/register', 
+        return fetch('https://push-server-testing.herokuapp.com/register', 
         {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
@@ -55,7 +55,7 @@ function unsubscribe() {
         return subscription.unsubscribe()
         .then(() => {
             console.log('Unsubscribed ', subscription.endpoint)
-            return fetch('http://localhost:4040/unregister', 
+            return fetch('https://push-server-testing.herokuapp.com/unregister', 
             {
                 method: 'POST',
                 headers: {'Content-Type' : 'application/json'},

@@ -15,7 +15,7 @@ self.addEventListener('pushsubscriptionchange', (event) => {
         self.registration.pushManager.subscribe({userVisibleOnly: true})
         .then(subscription => {
             console.log('Subscribed again to ', subscription.endpoint)
-            return fetch('/register', 
+            return fetch('https://push-server-testing.herokuapp.com/register', 
             {
                 method: 'POST',
                 headers: {'ContentType': 'application/json'},
