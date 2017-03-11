@@ -19,15 +19,6 @@ if ('serviceWorker' in navigator) {
         console.log('Service Worker registered')
         subscriptionButton.removeAttribute('disabled')
     })
-    getSubscription()
-    .then(subscription => {
-        if (subscription) {
-            console.log('Already registered at ', subscription.endpoint)
-            setUnsubscribeButton()
-        } else {
-            setSubscribeButton()
-        }
-    })
 }
 
 function login() {
