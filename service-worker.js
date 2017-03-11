@@ -1,6 +1,7 @@
 // listen for push events and define text to be displayed
 // then display the notification
 self.addEventListener('push', (event) => {
+    console.log(document.getElementById('username').value)
     event.waitUntil(self.registration.showNotification('Push Messaging Test', {
         body: 'This is a test Push Message!',
         icon: "icon.png",

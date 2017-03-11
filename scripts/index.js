@@ -1,5 +1,7 @@
 'use strict'
 
+const usernameInput = document.getElementById('username')
+let username
 const subscriptionButton = document.getElementById('register')
 
 // define method to get the subscription which returns a promise
@@ -28,6 +30,33 @@ if ('serviceWorker' in navigator) {
     })
 }
 
+function login() {
+    username = usernameInput.value
+    return fetch('https://push-server-testing.herokuapp.com/login', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            username: username
+        })
+    })
+    .then(getSubscription)
+    .then(subscription => {
+        if (subscription) {
+            console.log('Already registered at ', subscription.endpoint)
+            return fetch('https://push-server-testing.herokuapp.com/register', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({
+                    username: username,
+                    endpoint: subscription.endpoint
+                })
+            }).then(setUnsubscribeButton)
+        } else {
+            setSubscribeButton()
+        }
+    })
+}
+
 // get the 'registration from the service worker and create a new 'subscription'
 // register the subscription with the push message server by sending a POST request to the server
 function subscribe() {
@@ -42,6 +71,7 @@ function subscribe() {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
+                username: username,
                 endpoint: subscription.endpoint
             })
         })
