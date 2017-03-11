@@ -3,6 +3,7 @@
 const usernameInput = document.getElementById('username')
 let username
 const subscriptionButton = document.getElementById('register')
+const logInOutButton = document.getElementById('login')
 
 // define method to get the subscription which returns a promise
 function getSubscription() {
@@ -19,9 +20,11 @@ if ('serviceWorker' in navigator) {
         console.log('Service Worker registered')
         subscriptionButton.removeAttribute('disabled')
     })
+    .then(setLoginButton)
 }
 
 function login() {
+    console.log('Logging In')
     username = usernameInput.value
     return fetch('https://push-server-testing.herokuapp.com/login', {
         method: 'POST',
@@ -46,6 +49,18 @@ function login() {
             setSubscribeButton()
         }
     })
+    .then(setLogoutButton)
+}
+
+function logout() {
+    return fetch('https://push-server-testing.herokuapp.com/logout', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+            username: username
+        })
+    })
+    .then(setLoginButton)
 }
 
 // get the 'registration from the service worker and create a new 'subscription'
@@ -86,6 +101,16 @@ function unsubscribe() {
             })
         })
     }).then(setSubscribeButton)
+}
+
+function setLoginButton() {
+    logInOutButton.onclick = login
+    logInOutButton.textContent = 'Login'
+}
+
+function setLogoutButton() {
+    logInOutButton.onclick = logout
+    logInOutButton.textContent = 'Logout'
 }
 
 function setSubscribeButton() {
