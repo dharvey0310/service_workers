@@ -4,6 +4,8 @@ import bodyParser from 'body-parser'
 
 const app = express()
 
+let users = []
+
 // Array collecting active subscriptions
 // Would be replaced with a DB in real app
 let subscriptions = []
@@ -60,6 +62,11 @@ app.post('/register', (req, res) => {
         console.log('Subscription Registered for ' + endpoint)
         subscriptions.push(endpoint)
     }
+    res.type('js').send({success: true})
+})
+
+app.post('/login', (req, res) => {
+    users.push(req.body.username)
     res.type('js').send({success: true})
 })
 
