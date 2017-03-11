@@ -43,7 +43,7 @@ setInterval(() => {
 // check if the user is already subscribed
 function isSubscribed(endpoint) {
     users.forEach(user => {
-        return user.subscription ? user.subscription.indexOf(endpoint) >= 0 : -1
+        return user.subscription ? user.subscription.indexOf(endpoint) >= 0 : false
     })
 }
 
