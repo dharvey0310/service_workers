@@ -8,7 +8,7 @@ let users = []
 
 // Array collecting active subscriptions
 // Would be replaced with a DB in real app
-let subscriptions = []
+// let subscriptions = []
 
 // For testing set how often in seconds a push message should be sent
 const pushInterval = 10
@@ -21,27 +21,30 @@ if (!process.env.GCM_KEY) {
 }
 
 // function to send notifications to each registered subscription and remove the endpoint from that array if there is an error
-function sendNotification(endpoint) {
-    webPush.sendNotification({endpoint})
+function sendNotification(user) {
+    webPush.sendNotification({endpoint: user.subscription})
     .then(() => {
-        console.log('Push notification sent to ' + endpoint)
+        console.log('Push notification sent to ' + user.subscription)
     })
     .catch((error) => {
-        console.error('Unable to send push message to ' + endpoint + '. Removing subscription.')
+        console.error('Unable to send push message to ' + user.subscription + '. Removing subscription.')
         console.error('ERROR', error)
-        subscriptions.splice(subscriptions.indexOf(endpoint), 1)
+        const index = users.findIndex(u => u === user)
+        users[index].subscription = null
     })
 }
 
 // In a real app the messages would be sent in response to actions
 // for testing a message is sent every *pushInterval* seconds
 setInterval(() => {
-    subscriptions.forEach(sendNotification)
+    users.forEach(sendNotification)
 }, pushInterval * 1000)
 
 // check if the user is already subscribed
 function isSubscribed(endpoint) {
-    return subscriptions.indexOf(endpoint) >= 0
+    users.forEach(user => {
+        return user.subscription.indexOf(endpoint) >= 0
+    })
 }
 
 app.use((req, res, next) => {
@@ -60,21 +63,28 @@ app.post('/register', (req, res) => {
     const endpoint = req.body.endpoint
     if (!isSubscribed(endpoint)) {
         console.log('Subscription Registered for ' + endpoint)
-        subscriptions.push(endpoint)
+        const index = users.findIndex(user => user === req.body.username)
+        users[index].subscription = endpoint
     }
     res.type('js').send({success: true})
 })
 
 app.post('/login', (req, res) => {
-    users.push(req.body.username)
+    users.push({username: req.body.username})
     res.type('js').send({success: true})
+})
+
+app.post('/logout', (req, res) => {
+    const index = users.findIndex((user) => user.username === req.body.username)
+    users.splice(index, 1)
 })
 
 app.post('/unregister', (req, res) => {
     const endpoint = req.body.endpoint
     if (isSubscribed(endpoint)) {
         console.log('Subscription removed for ' + endpoint)
-        subscriptions.splice(subscriptions.indexOf(endpoint), 1)
+        const index = users.findIndex(user => endpoint === user.subscription)
+        users[index].subscription = null
     }
     res.type('js').send({success: true})
 })
