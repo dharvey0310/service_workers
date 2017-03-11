@@ -63,7 +63,7 @@ app.post('/register', (req, res) => {
     const endpoint = req.body.endpoint
     if (!isSubscribed(endpoint)) {
         console.log('Subscription Registered for ' + endpoint)
-        const index = users.findIndex(user => user === req.body.username)
+        const index = users.findIndex(user => user.username === req.body.username)
         users[index].subscription = endpoint
     }
     res.type('js').send({success: true})
