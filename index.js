@@ -66,6 +66,7 @@ app.get('/', (req, res) => {
 
 // route to register the push message subscription
 app.post('/register', (req, res) => {
+  console.log(req.body)
   const endpoint = req.body.endpoint;
   if (!isSubscribed(endpoint)) {
     console.log('Subscription Registered for ' + endpoint);
